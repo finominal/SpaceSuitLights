@@ -1,21 +1,23 @@
 int fanLightsLoc = 0;
 int fanLightsLastMovement = 0;
+int lastLight = 0;
 long nextAnimationChangeTime = 0;
-long changeIntervalMS = 40;
+long changeIntervalMS = 10;
 
-void FanLightsRotate(int color)
+void FanLightsRotate(CRGB color)
 {
   //turn off last light
 
 if(nextAnimationChangeTime < millis())
  {
   //reset all the fan lights
-  for(int i = 0; i<9;i++)
+  for(int i = 0; i<10;i++)
   {
     leds[fanLights[i]] = CRGB::Black;
   }
-    
-    if(fanLightsLoc>=8)
+
+    //move to the next led locaiton
+    if(fanLightsLoc >= 9)//nine lights, zero index, max = 8
     {fanLightsLoc = 0;}
     else
     {fanLightsLoc++;}
@@ -31,17 +33,18 @@ if(nextAnimationChangeTime < millis())
 
 void FanLightsSparkle()
 {
-
-if(nextAnimationChangeTime < millis())
- {
-      //reset all the fan lights
-  for(int i = 0; i<9;i++)
+  //reset all the fan lights
+  for(int i = 0; i<10;i++)
   {
     leds[fanLights[i]] = CRGB::Green;
   }
+  
 
-    fanLightsLoc = random(0,9);//upper value is exclusive so go one higher.
+  if(nextAnimationChangeTime < millis())
+  {
+    while(fanLightsLoc == lastLight) {fanLightsLoc = random(0,10);}
     leds[fanLights[fanLightsLoc]] = CRGB::White;
+    lastLight = fanLightsLoc;
     
     nextAnimationChangeTime = millis() + changeIntervalMS;
  }//end if statement for timer

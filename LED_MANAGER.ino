@@ -1,7 +1,20 @@
 long frontLightsNextChange = 0;
+int currentProgram = 1;
+
+void CheckProgramChange()
+{
+  if(UP==true)    {currentProgram = 0;}
+  if(DOWN==true)  {currentProgram = 1;}
+  if(LEFT==true)  {currentProgram = 2;}
+  if(RIGHT==true) {currentProgram = 3;}
+}
 
 void ActionLedProgram()
 {
+  Serial.println("ActionLedProgram");
+  
+  CheckProgramChange();
+  
   switch(currentProgram)
   {
     case 0:
@@ -10,80 +23,135 @@ void ActionLedProgram()
     case 1:
       Program1();
       break;
+    case 2:
+      ProgramPallet();
+      break;
+    case 3:
+      Pulsator(CRGB::White);
+      break; 
+
+    default: 
+    currentProgram = 0; //reset if outside the program values
+    break;
   }
+  Serial.print("currentProgram=");Serial.println(currentProgram);
 }
 
 void Program0()
 {
+   ArmsStatic(CRGB::OrangeRed);
    FanLightsRotate(CRGB::Blue);
-   ArmsOrange();
    FrontLightsRandom();
+   FastLED.show();
 }
 
 void Program1()
 {
    FanLightsSparkle();
-   ArmsOrange();
+   ArmsStatic(CRGB::Green);
    FrontLightsRandom();
+   FastLED.show();
 }
 
 void FrontLightsRandom()
 {
+  Serial.println("FrontLightsRandom");
   if(frontLightsNextChange < millis())
   {
-    leds[threeFront[random(3)]] =  pickColor();
-    frontLightsNextChange = millis()+500;
+    Serial.println("FrontLightsRandom-triggered");
+    leds[threeFront[random(3)]] =  GetRandomColor();
+    frontLightsNextChange = millis()+1000;
   }
 }
 
-void ArmsOrange()
+void ArmsStatic(CRGB color)
 {
     //reset all the fan lights
-  for(int i = 0; i<11;i++)
+  for(int i = 0; i<sizeof(armLeft)/sizeof(int);i++)
   {
-    leds[armLeft[i]] = CRGB::Orange;
-    leds[armRight[i]] = CRGB::Orange;
+    leds[armLeft[i]] = color;
+    leds[armRight[i]] = color;
   }    
 }
+
+void Pulsator(int color)
+{
+    //reset all the fan lights
+  for(int i = 0; i<NUM_LEDS;i++)
+  {
+    leds[i] = color;
+  }    
+  FastLED.show();
+
+  delay(100);
+
+  //reset all the fan lights
+  for(int i = 0; i<NUM_LEDS;i++)
+  {
+    leds[i] = CRGB::Black;
+  }    
+   FastLED.show();
+   delay(100);
+}
+
+
 
 
 
 void LedPowerUp()
 {
+  Serial.println();
+  Serial.println("LedPowerUp");
   int bright = 0;
+
+FastLED.setBrightness(bright);
+
+    for(int i = 0; i<NUM_LEDS; i++)
+    {
+      leds[i] = CRGB::OrangeRed;
+    }
+  
   while(bright<255)
   {
-    for(int i = 0; i>NUM_LEDS; i++)
-    {
-      leds[i] = CRGB::Green;
-    }
     
+    FastLED.setBrightness(bright);
     FastLED.show();
     delay(10);
     
     bright++; //add one in case we are at low brightness, and muliplying doesnt work yet.
-    bright *= 1.3; //multiply to overcome log brightness
+    //bright *= 1.3; //multiply to overcome log brightness
   }
+
   
   //dimdown
   while(bright>0)
   {
-    for(int i = 0; i>NUM_LEDS; i++)
-    {
-      leds[i] = CRGB::Green;
-    }
-    
+
+    FastLED.setBrightness(bright);
     FastLED.show();
-    delay(1);
+    delay(10);
+    
     bright--;
-    bright /= 1.3; //multiply to overcome log brightness
+    //bright /= 1.3; //multiply to overcome log brightness
   }
+
+  Serial.println("LedPowerUp EXIT");
+  Serial.println();
+
+//reset all leds
+      for(int i = 0; i<NUM_LEDS; i++)
+    {
+      leds[i] = CRGB::Black;
+    }
+  
+  FastLED.setBrightness(BRIGHTNESS);
+  FastLED.show();
  }
 
 
 
 
-long pickColor()
+long GetRandomColor()
 {
   int color;
   int rand = random(1,7);

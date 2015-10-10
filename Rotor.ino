@@ -1,4 +1,5 @@
 boolean rotatorOn = false; 
+long nextRotatorToggleTime = 0;
 
 void ActionRotatorLight()
 {
@@ -8,10 +9,12 @@ void ActionRotatorLight()
 void ToggleRotator()
 {
   
-  if (B == true) //if button pressed
+  if (B == true && nextRotatorToggleTime < millis() ) //if button pressed and its time to toggle
   {
     rotatorOn = !rotatorOn; //flip state
     Serial.println("Rotator Button Press Detected");
+    
+    nextRotatorToggleTime = millis() + 1000; //set the next toggle time
   
     if(rotatorOn == true) //action state
     {

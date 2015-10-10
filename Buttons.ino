@@ -34,7 +34,7 @@ void ShowButtons()
   if(UP     == true) {leds[2] = CRGB::LightSkyBlue;}  else {leds[2] = CRGB::Black;}
   if(DOWN   == true) {leds[3] = CRGB::DarkRed;}       else {leds[3] = CRGB::Black;}
   if(A      == true) {leds[4] = CRGB::White;}         else {leds[4] = CRGB::Black;}
-  if(B      == true)  {leds[5] = CRGB::Red;}           else {leds[5] = CRGB::Black;}
+  if(B      == true)  {leds[5] = CRGB::Red;}          else {leds[5] = CRGB::Black;}
   
   FastLED.show();
 }
