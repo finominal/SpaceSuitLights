@@ -1,5 +1,5 @@
 long frontLightsNextChange = 0;
-int currentProgram = 1;
+volatile int currentProgram = 1;
 
 void CheckProgramChange()
 {
@@ -11,7 +11,7 @@ void CheckProgramChange()
 
 void ActionLedProgram()
 {
-  Serial.println("ActionLedProgram");
+  //Serial.println("ActionLedProgram");
   
   CheckProgramChange();
   
@@ -34,7 +34,7 @@ void ActionLedProgram()
     currentProgram = 0; //reset if outside the program values
     break;
   }
-  Serial.print("currentProgram=");Serial.println(currentProgram);
+  //Serial.print("currentProgram=");Serial.println(currentProgram);
 }
 
 void Program0()
@@ -51,14 +51,15 @@ void Program1()
    ArmsStatic(CRGB::Green);
    FrontLightsRandom();
    FastLED.show();
+   delay(5);
 }
 
 void FrontLightsRandom()
 {
-  Serial.println("FrontLightsRandom");
+  //Serial.println("FrontLightsRandom");
   if(frontLightsNextChange < millis())
   {
-    Serial.println("FrontLightsRandom-triggered");
+    //Serial.println("FrontLightsRandom-triggered");
     leds[threeFront[random(3)]] =  GetRandomColor();
     frontLightsNextChange = millis()+1000;
   }
@@ -66,10 +67,13 @@ void FrontLightsRandom()
 
 void ArmsStatic(CRGB color)
 {
-    //reset all the fan lights
-  for(int i = 0; i<sizeof(armLeft)/sizeof(int);i++)
+  for(int i = 0; i<11;i++)
   {
     leds[armLeft[i]] = color;
+  }    
+
+  for(int i = 0; i<9;i++)
+  {
     leds[armRight[i]] = color;
   }    
 }
@@ -83,7 +87,7 @@ void Pulsator(int color)
   }    
   FastLED.show();
 
-  delay(100);
+  delay(50);
 
   //reset all the fan lights
   for(int i = 0; i<NUM_LEDS;i++)
@@ -91,7 +95,7 @@ void Pulsator(int color)
     leds[i] = CRGB::Black;
   }    
    FastLED.show();
-   delay(100);
+   delay(50);
 }
 
 

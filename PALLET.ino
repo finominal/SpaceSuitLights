@@ -27,11 +27,13 @@ extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
 void ProgramPallet()
 {
 
-  currentPalette = RainbowColors_p;
+  currentPalette = RainbowStripeColors_p;
   currentBlending = BLEND;
 
 
-  ChangePalettePeriodically();
+  //ChangePalettePeriodically();
+
+  SetupTotallyRandomPalette();
 
   static uint8_t startIndex = 0;
   startIndex = startIndex + 1; /* motion speed */
@@ -39,16 +41,15 @@ void ProgramPallet()
   FillLEDsFromPaletteColors( startIndex);
 
   FastLED.show();
-  FastLED.delay(1000 / UPDATES_PER_SECOND);
+  FastLED.delay(100);
 }
 
 void FillLEDsFromPaletteColors( uint8_t colorIndex)
 {
-  uint8_t brightness = 255;
   
   for( int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = ColorFromPalette( currentPalette, colorIndex, brightness, currentBlending);
-    colorIndex += 3;
+    leds[i] = ColorFromPalette( currentPalette, colorIndex, BRIGHTNESS, currentBlending);
+    colorIndex += 5;
   }
 }
 

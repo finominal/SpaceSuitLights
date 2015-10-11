@@ -2,7 +2,7 @@ int fanLightsLoc = 0;
 int fanLightsLastMovement = 0;
 int lastLight = 0;
 long nextAnimationChangeTime = 0;
-long changeIntervalMS = 10;
+long changeIntervalMS = 30;
 
 void FanLightsRotate(CRGB color)
 {
@@ -46,7 +46,6 @@ void FanLightsSparkle()
     leds[fanLights[fanLightsLoc]] = CRGB::White;
     lastLight = fanLightsLoc;
     
-    nextAnimationChangeTime = millis() + changeIntervalMS;
+    nextAnimationChangeTime = millis() + (changeIntervalMS*2);
  }//end if statement for timer
-  
-}
+  delay(5);}

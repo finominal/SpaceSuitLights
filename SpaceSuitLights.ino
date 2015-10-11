@@ -2,7 +2,7 @@
 
 #define DATA_PIN 3
 #define NUM_LEDS 42
-#define BRIGHTNESS  255
+#define BRIGHTNESS  128
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
@@ -23,7 +23,7 @@ uint8_t fiberFour[] = {42,43};
 CRGBPalette16 currentPalette;
 TBlendType    currentBlending;
 
-
+int numberOfPrograms = 4; //used in serial program change
 
 void setup() 
 {
@@ -44,6 +44,9 @@ void setup()
   //ReadButtons();
   //PrintAnalogPorts();
   //PrintButtonStates();
+
+  pinMode(5,OUTPUT);
+  digitalWrite(5, HIGH);//turn off the rotator 
   
 }
 
@@ -52,10 +55,11 @@ void loop()
   // Dev - Show what buttones are currently being pressed. Will be on the first arm
   //ShowButtons();;
 
+  
   ReadButtons();
+  CheckForSerialProgram();
   
-  
-  //ActionRotatorLight();
+  ActionRotatorLight();
   ActionLedProgram();
 }
 
