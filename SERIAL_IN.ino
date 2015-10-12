@@ -18,8 +18,8 @@ void serialEvent() {
 
      if(inByte == 9)
      {
-      digitalWrite(5, !digitalRead(5));
-      }
+       rotatorOn = !rotatorOn; //flip state
+     }
      
   }
 }

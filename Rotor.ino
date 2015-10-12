@@ -1,12 +1,15 @@
 boolean rotatorOn = false; 
 long nextRotatorToggleTime = 0;
+int rotatorBrightness = BRIGHTNESS;
 
-void ActionRotatorLight()
+void InitializeRotatorLight()
 {
-  ToggleRotator();
+   pinMode(5,OUTPUT);
+   digitalWrite(5, HIGH);//turn off the rotator 
 }
 
-void ToggleRotator()
+  
+void CheckRotatorLightButton()
 {
   
   if (B == true && nextRotatorToggleTime < millis() ) //if button pressed and its time to toggle
@@ -14,18 +17,7 @@ void ToggleRotator()
     rotatorOn = !rotatorOn; //flip state
     Serial.println("Rotator Button Press Detected");
     
-    nextRotatorToggleTime = millis() + 1000; //set the next toggle time
-  
-    if(rotatorOn == true) //action state
-    {
-      digitalWrite(4,LOW);
-      Serial.println("Rotator Turned On");
-    }
-    else
-    {
-      digitalWrite(4,HIGH);
-      Serial.println("Rotator Turned On");
-    }
+    nextRotatorToggleTime = millis() + 500; //set the next toggle time
   
     while(B == true) //wait for let go of buttons
     {
@@ -36,4 +28,29 @@ void ToggleRotator()
     delay(5);//debounce buttons
   }
 }
-  
+
+  void ActionRotator()
+  {
+     if(rotatorOn == true) //action state
+    {
+      digitalWrite(5,LOW);
+      if(rotatorBrightness > BRIGHTNESS/4)
+      {
+        rotatorBrightness--;
+        FastLED.setBrightness(rotatorBrightness);
+        }
+      
+      //Serial.println("Rotator Turned on");
+    }
+    else
+    {
+      digitalWrite(5,HIGH);
+      if(rotatorBrightness < BRIGHTNESS)
+      {
+        rotatorBrightness++;
+        FastLED.setBrightness(rotatorBrightness);
+       }
+      
+      //Serial.println("Rotator Turned off");
+    }
+ }

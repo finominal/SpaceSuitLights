@@ -1,5 +1,7 @@
 #include "FastLED.h"
 
+volatile int currentProgram = 2;
+
 #define DATA_PIN 3
 #define NUM_LEDS 42
 #define BRIGHTNESS  128
@@ -36,6 +38,8 @@ void setup()
   
   FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(  BRIGHTNESS );
+
+  InitializeRotatorLight();
   
   LedPowerUp();//Will glow all greens
 
@@ -44,10 +48,6 @@ void setup()
   //ReadButtons();
   //PrintAnalogPorts();
   //PrintButtonStates();
-
-  pinMode(5,OUTPUT);
-  digitalWrite(5, HIGH);//turn off the rotator 
-  
 }
 
 void loop() 
@@ -59,7 +59,8 @@ void loop()
   ReadButtons();
   CheckForSerialProgram();
   
-  ActionRotatorLight();
+  //CheckRotatorLightButton();
+  ActionRotator();
   ActionLedProgram();
 }
 

@@ -27,16 +27,16 @@ extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
 void ProgramPallet()
 {
 
-  currentPalette = RainbowStripeColors_p;
+  currentPalette = PartyColors_p;
   currentBlending = BLEND;
 
 
   //ChangePalettePeriodically();
 
-  SetupTotallyRandomPalette();
+  //SetupBlackAndWhiteStripedPalette();
 
   static uint8_t startIndex = 0;
-  startIndex = startIndex + 1; /* motion speed */
+  startIndex = startIndex + 3; /* motion speed */
 
   FillLEDsFromPaletteColors( startIndex);
 
@@ -49,7 +49,7 @@ void FillLEDsFromPaletteColors( uint8_t colorIndex)
   
   for( int i = 0; i < NUM_LEDS; i++) {
     leds[i] = ColorFromPalette( currentPalette, colorIndex, BRIGHTNESS, currentBlending);
-    colorIndex += 5;
+    colorIndex += 1;
   }
 }
 

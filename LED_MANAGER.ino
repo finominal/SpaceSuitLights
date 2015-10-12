@@ -1,5 +1,5 @@
 long frontLightsNextChange = 0;
-volatile int currentProgram = 1;
+
 
 void CheckProgramChange()
 {
@@ -115,12 +115,12 @@ FastLED.setBrightness(bright);
       leds[i] = CRGB::OrangeRed;
     }
   
-  while(bright<255)
+  while(bright<BRIGHTNESS)
   {
     
     FastLED.setBrightness(bright);
     FastLED.show();
-    delay(10);
+    delay(20);
     
     bright++; //add one in case we are at low brightness, and muliplying doesnt work yet.
     //bright *= 1.3; //multiply to overcome log brightness
@@ -133,7 +133,7 @@ FastLED.setBrightness(bright);
 
     FastLED.setBrightness(bright);
     FastLED.show();
-    delay(10);
+    delay(20);
     
     bright--;
     //bright /= 1.3; //multiply to overcome log brightness
@@ -142,12 +142,13 @@ FastLED.setBrightness(bright);
   Serial.println("LedPowerUp EXIT");
   Serial.println();
 
-//reset all leds
-      for(int i = 0; i<NUM_LEDS; i++)
-    {
+  //reset all leds
+  for(int i = 0; i<NUM_LEDS; i++)
+  {
       leds[i] = CRGB::Black;
-    }
-  
+  }
+
+  //reset to standard
   FastLED.setBrightness(BRIGHTNESS);
   FastLED.show();
  }
