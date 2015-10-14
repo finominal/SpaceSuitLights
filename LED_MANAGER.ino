@@ -3,10 +3,26 @@ long frontLightsNextChange = 0;
 
 void CheckProgramChange()
 {
-  if(UP==true)    {currentProgram = 0;}
-  if(DOWN==true)  {currentProgram = 1;}
-  if(LEFT==true)  {currentProgram = 2;}
-  if(RIGHT==true) {currentProgram = 3;}
+  if(UP==true)    
+  {
+    currentProgram = 0;
+    Serial.println("Logical Program Change to 0");
+   }
+   else if(DOWN==true)  
+   {
+    currentProgram = 1;
+    Serial.println("Logical Program Change to 1");
+   }
+   else if(LEFT==true)  
+   {
+    currentProgram = 2;
+    Serial.println("Logical Program Change to 2");
+   }
+   else if(RIGHT==true) 
+   {
+    currentProgram = 3;
+    Serial.println("Logical Program Change to 3");
+   }
 }
 
 void ActionLedProgram()
@@ -24,7 +40,7 @@ void ActionLedProgram()
       Program1();
       break;
     case 2:
-      ProgramPallet();
+      PalletProgram();
       break;
     case 3:
       Pulsator(CRGB::White);
@@ -36,6 +52,12 @@ void ActionLedProgram()
   }
   //Serial.print("currentProgram=");Serial.println(currentProgram);
 }
+
+
+
+
+
+//ACTION PROGRAMS
 
 void Program0()
 {
@@ -54,6 +76,28 @@ void Program1()
    delay(5);
 }
 
+void Pulsator(int color)
+{
+    //reset all the fan lights
+  for(int i = 0; i<NUM_LEDS;i++)
+  {
+    leds[i] = color;
+  }    
+  FastLED.show();
+
+  delay(50);
+
+  //reset all the fan lights
+  for(int i = 0; i<NUM_LEDS;i++)
+  {
+    leds[i] = CRGB::Black;
+  }    
+   FastLED.show();
+   delay(50);
+}
+
+
+//SUB PROGRAMS
 void FrontLightsRandom()
 {
   //Serial.println("FrontLightsRandom");
@@ -78,25 +122,6 @@ void ArmsStatic(CRGB color)
   }    
 }
 
-void Pulsator(int color)
-{
-    //reset all the fan lights
-  for(int i = 0; i<NUM_LEDS;i++)
-  {
-    leds[i] = color;
-  }    
-  FastLED.show();
-
-  delay(50);
-
-  //reset all the fan lights
-  for(int i = 0; i<NUM_LEDS;i++)
-  {
-    leds[i] = CRGB::Black;
-  }    
-   FastLED.show();
-   delay(50);
-}
 
 
 

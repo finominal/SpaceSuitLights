@@ -9,17 +9,15 @@ volatile int currentProgram = 2;
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
 
-#define UPDATES_PER_SECOND 100
+#define UPDATES_PER_SECOND 30
 
 uint8_t armLeft[] = {0,1,2,3,4,5,6,7,8,9,10};
 uint8_t fanLights[] = {11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 uint8_t threeFront[] = {21, 22,23};
 uint8_t armRight[] = {24, 25,26,27,28,29,30,31,32,33,34};
 //fix below
-uint8_t fiberOne[] = {36,37};
-uint8_t fiberTwo[] = {38,39};
-uint8_t fiberThree[] = {40,41};
-uint8_t fiberFour[] = {42,43};
+uint8_t fiberCaripace[] = {35,36};
+
 
 
 CRGBPalette16 currentPalette;
@@ -55,12 +53,12 @@ void loop()
   // Dev - Show what buttones are currently being pressed. Will be on the first arm
   //ShowButtons();;
 
+  //ReadButtons();  //only run this if the buttons are connected otherwise the system will experiencefloating inputs that will randomly change programs.
   
-  ReadButtons();
-  CheckForSerialProgram();
+  CheckForSerialProgram(); //acccepts numerical program changes via serial
   
-  //CheckRotatorLightButton();
-  ActionRotator();
+  CheckForRotatorToggle(); //logical check based on button presses or serial input
+  
   ActionLedProgram();
 }
 

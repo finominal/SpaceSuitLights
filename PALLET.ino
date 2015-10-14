@@ -24,7 +24,7 @@ extern CRGBPalette16 myRedWhiteBluePalette;
 extern const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM;
 
 
-void ProgramPallet()
+void PalletProgram()
 {
 
   currentPalette = PartyColors_p;
@@ -110,8 +110,8 @@ void SetupBlackAndWhiteStripedPalette()
 // This function sets up a palette of purple and green stripes.
 void SetupPurpleAndGreenPalette()
 {
-  CRGB purple = CHSV( HUE_PURPLE, 255, 255);
-  CRGB green  = CHSV( HUE_GREEN, 255, 255);
+  CRGB purple = CHSV( HUE_PURPLE, 255, BRIGHTNESS);
+  CRGB green  = CHSV( HUE_GREEN, 255, BRIGHTNESS);
   CRGB black  = CRGB::Black;
   
   currentPalette = CRGBPalette16( 
