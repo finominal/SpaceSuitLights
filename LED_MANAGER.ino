@@ -1,6 +1,8 @@
 long frontLightsNextChange = 0;
 
-
+/*
+ * THIS HAS BEEN MOVED TO THE SYSTEM CONTROLLER
+ * THIS LED CONTROLLER NOW CHANGES PATTERNS VIA THE SERIAL DATA
 void CheckProgramChange()
 {
   if(UP==true)    
@@ -24,12 +26,13 @@ void CheckProgramChange()
     Serial.println("Logical Program Change to 3");
    }
 }
+*/
 
 void ActionLedProgram()
 {
   //Serial.println("ActionLedProgram");
   
-  CheckProgramChange();
+  //CheckProgramChange();
   
   switch(currentProgram)
   {

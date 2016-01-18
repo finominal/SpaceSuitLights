@@ -1,6 +1,6 @@
 #include "FastLED.h"
 
-volatile int currentProgram = 2;
+volatile int currentProgram = 0;
 
 #define DATA_PIN 3
 #define NUM_LEDS 42
@@ -17,7 +17,7 @@ uint8_t threeFront[] = {21, 22,23};
 uint8_t armRight[] = {24, 25,26,27,28,29,30,31,32,33,34};
 //fix below
 uint8_t fiberCaripace[] = {35,36};
-
+int rotatorPin = 5;
 
 
 CRGBPalette16 currentPalette;
@@ -27,12 +27,11 @@ int numberOfPrograms = 4; //used in serial program change
 
 void setup() 
 {
-  delay(1000);
-  Serial.begin(9400);
+  Serial.begin(9600);
   
-  Serial.println();
-  Serial.println("***SystemRestart***");
-  Serial.println();
+  //Serial.println();
+  //Serial.println("***SystemRestart***");
+  //Serial.println();
   
   FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(  BRIGHTNESS );
@@ -50,16 +49,12 @@ void setup()
 
 void loop() 
 {
-  // Dev - Show what buttones are currently being pressed. Will be on the first arm
-  //ShowButtons();;
 
-  //ReadButtons();  //only run this if the buttons are connected otherwise the system will experiencefloating inputs that will randomly change programs.
-  
   CheckForSerialProgram(); //acccepts numerical program changes via serial
   
-  CheckForRotatorToggle(); //logical check based on button presses or serial input
-  
   ActionLedProgram();
+
+  ActionRotator();
 }
 
 

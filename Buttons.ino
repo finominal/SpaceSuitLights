@@ -2,7 +2,8 @@
 
 /* BUTTONS */
 /*
-This would normally not be here, rather on the system controller
+THIS IS NOW IN THE SYSTEM COMTROLLER> 
+
 At the time this was written there was only one controller operating 
 for the leds. 
 
